@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if editar %}
+        Editar encuesta
+    {% else %}
+        Crear encuesta
+    {% endif %}
+{% endblock %}
+
+
+{% block main %}
+
+<h2>
+    {% if editar %}
+        Editar encuesta
+    {% else %}
+        Crear encuesta
+    {% endif %}
+</h2>
+
+
+<article>
+    <form method="post">
+        {% csrf_token %}
+        {{ pregunta_form }}
+
+        <h3>Opciones</h3>
+
+        {{ opciones_formset.management_form }}
+        <div id="opciones">
+            {% for form in opciones_formset %}
+                <div class="opcion">
+                    {{ form.id }}
+                    {{ form.texto_opcion }}
+                    <span class="delete">
+                        {{ form.DELETE }}
+                    </span>
+                    <button type="button" class="eliminar">
+                        Eliminar
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="agregar">
+            Añadir opción
+        </button>
+
+        <br><br>
+
+        <button type="submit">
+            Guardar
+        </button>
+    </form>
+</article>
+
+
+
+<!-- Plantilla nuevas opciones -->
+<div id="empty-form" style="display:none">
+    <div class="opcion">
+        {{ opciones_formset.empty_form.texto_opcion }}
+        {{ opciones_formset.empty_form.DELETE }}
+        <button type="button" class="eliminar">
+            Eliminar
+        </button>
+    </div>
+</div>
+
+
+
+<style>
+
+.delete {
+    display:none;
+}
+
+</style>
+
+
+
+<script>
+
+
+const totalForms = document.getElementById(
+    "id_{{ opciones_formset.prefix }}-TOTAL_FORMS"
+);
+
+
+const opciones = document.getElementById("opciones");
+
+
+const emptyForm =
+    document.getElementById("empty-form").innerHTML;
+
+
+
+// Añadir opción
+
+document.getElementById("agregar").onclick = function(){
+
+
+    let numero = totalForms.value;
+
+
+    let nuevo = emptyForm.replace(
+        /__prefix__/g,
+        numero
+    );
+
+
+    opciones.insertAdjacentHTML(
+        "beforeend",
+        nuevo
+    );
+
+
+    totalForms.value =
+        parseInt(numero) + 1;
+
+};
+
+
+
+
+// Eliminar opción
+
+document.addEventListener(
+    "click",
+    function(e){
+
+
+        if(!e.target.classList.contains("eliminar")){
+            return;
+        }
+
+
+        let fila = e.target.closest(".opcion");
+
+
+        let deleteCheckbox =
+            fila.querySelector(
+                'input[name$="-DELETE"]'
+            );
+
+
+
+        // Opción existente
+
+        if(deleteCheckbox){
+
+
+            deleteCheckbox.checked = true;
+
+
+            fila.style.display = "none";
+
+
+        }
+
+        // Opción nueva
+
+        else {
+
+
+            fila.remove();
+
+
+        }
+
+
+    }
+);
+
+
+</script>
+
+
+{% endblock %}

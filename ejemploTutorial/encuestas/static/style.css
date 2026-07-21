@@ -1,0 +1,77 @@
+:root {
+    --unizar-blue: #223d71;
+    --unizar-accent: #ffcc00;
+    --border-radius: 0.5rem;
+}
+
+/* Cabecera */
+.header {
+    background: var(--unizar-blue);
+    margin: 1rem auto 2rem;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+}
+
+.header a {
+    color: white;
+    text-decoration: none;
+}
+
+.header a:hover {
+    color: var(--unizar-accent);
+}
+
+
+article {
+    border-radius: var(--border-radius);
+}
+
+
+button,
+input[type="submit"],
+input[type="button"],
+[role="button"] {
+color: white !important;
+    background-color: var(--unizar-blue) !important;
+    border-color: var(--unizar-blue) !important;
+}
+
+button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+[role="button"]:hover {
+    color: var(--unizar-accent) !important;
+    background-color: var(--unizar-blue) !important;
+    border-color: var(--unizar-blue) !important;
+}
+
+article {
+    width: 70%;
+    margin: 1rem auto;
+}
+
+form {
+    margin: 0 auto;
+}
+
+.opcion {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+}
+
+.opcion input[type="text"] {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.opcion button {
+    width: auto;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.opcion input[type="checkbox"] {
+    display: none;
+}

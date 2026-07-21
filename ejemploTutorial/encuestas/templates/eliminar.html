@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Eliminar encuesta
+{% endblock %}
+
+{% block main %}
+
+<article>
+
+    <h2>Eliminar encuesta</h2>
+
+    <p>
+        ¿Seguro que quieres eliminar <strong>{{ pregunta.texto_pregunta }}</strong>?
+    </p>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="grid">
+        <button type="submit">
+            Eliminar
+        </button>
+
+        <button type="button" onclick="location.href='{% url 'home' %}'">
+            Cancelar
+        </button>
+    </div>
+</form>
+
+</article>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}
+Home
+{% endblock %}
+{% block main %}
+
+<h2>Encuestas disponibles:</h2>
+
+{% if preguntas %}
+    {% for pregunta in preguntas %}
+        <article>
+            <div class="grid">
+                <div>
+                    <h3>{{ pregunta.texto_pregunta }}</h3>
+                </div>
+
+                <div>
+                    {% if user.is_authenticated %}
+                        <div class="grid">
+                            <a href="{% url 'editar' pregunta.id %}" role="button">
+                                Editar
+                            </a>
+                            <a href="{% url 'eliminar' pregunta.id %}" role="button">
+                                Eliminar
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <br>
+            <div class="grid">
+                <a href="{% url 'votar' pregunta.id %}" role="button">
+                    Votar
+                </a>
+                <a href="{% url 'resultados' pregunta.id %}" role="button">
+                    Ver resultados
+                </a>
+            </div>
+        </article>
+    {% endfor %}
+{% else %}
+
+    <article>
+        <p>No hay encuestas</p>
+        <a role="button" href="{% url 'crear' %}">
+            Crear
+        </a>
+    </article>
+
+{% endif %}
+
+{% endblock %}

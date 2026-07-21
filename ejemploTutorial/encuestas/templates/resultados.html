@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+Resultados
+{% endblock %}
+
+{% block main %}
+
+<h3>{{ pregunta.texto_pregunta }}</h3>
+
+<article>
+    <table>
+        <thead>
+            <tr>
+                <th>Opción</th>
+                <th>Votos</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for opcion in pregunta.opcion_set.all %}
+        <tr>
+                <td>{{ opcion.texto_opcion }}</td>
+                <td>{{ opcion.votos }}</td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th>{{ total_votos }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+    <button type="button" onclick="location.href='{% url 'home' %}'">
+            Volver
+    </button>
+</article>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+Votar
+{% endblock %}
+
+{% block main %}
+
+<h2>{{ pregunta.texto_pregunta }}</h2>
+
+<article>
+    <form method="post">
+        {% csrf_token %}
+
+        {% for opcion in pregunta.opcion_set.all %}
+            <label>
+                <input type="radio" name="opcion" value="{{ opcion.id }}" id="opcion{{ opcion.id }}">
+                {{ opcion.texto_opcion }}
+            </label>
+        {% endfor %}
+
+        <button type="submit">Votar</button>
+
+        {% if error %}
+            <p style="color:red;">{{ error }}</p>
+        {% endif %}
+    </form>
+</article>
+
+{% endblock %}
