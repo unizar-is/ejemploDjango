@@ -182,43 +182,6 @@ class EncuestasTest(TestCase):
             '_auth_user_id' in self.client.session
         )
 
-    def test_eliminar_encuesta(self):
-        """Test para eliminar una encuesta"""
-
-        # Iniciar sesión
-        self.client.login(
-            username=EncuestasTest.username,
-            password=EncuestasTest.password
-        )
-
-        # Crear encuesta y opciones
-        pregunta, opciones = crear_pregunta_opciones(
-            "pregunta 1",
-            "opcion 1",
-            "opcion 2",
-            23,
-            25
-        )
-
-        # Eliminar encuesta
-        response = self.client.post(
-            reverse('eliminar', args=(pregunta.id,))
-        )
-
-        # Comprobar redirección
-        self.assertRedirects(response, reverse('home'))
-
-        # Comprobar que la encuesta ha sido eliminada
-        self.assertFalse(
-            Pregunta.objects.filter(id=pregunta.id).exists()
-        )
-
-        # Comprobar que las opciones también han sido eliminadas
-        for opcion in opciones:
-            self.assertFalse(
-                Opcion.objects.filter(id=opcion.id).exists()
-            )
-
     def test_crear_encuesta(self):
         """Test para crear una encuesta"""
 
@@ -329,3 +292,40 @@ class EncuestasTest(TestCase):
             opcion2.texto_opcion,
             'opcion 2 actualizada'
         )
+
+    def test_eliminar_encuesta(self):
+        """Test para eliminar una encuesta"""
+
+        # Iniciar sesión
+        self.client.login(
+            username=EncuestasTest.username,
+            password=EncuestasTest.password
+        )
+
+        # Crear encuesta y opciones
+        pregunta, opciones = crear_pregunta_opciones(
+            "pregunta 1",
+            "opcion 1",
+            "opcion 2",
+            23,
+            25
+        )
+
+        # Eliminar encuesta
+        response = self.client.post(
+            reverse('eliminar', args=[pregunta.id])
+        )
+
+        # Comprobar redirección
+        self.assertRedirects(response, reverse('home'))
+
+        # Comprobar que la encuesta ha sido eliminada
+        self.assertFalse(
+            Pregunta.objects.filter(id=pregunta.id).exists()
+        )
+
+        # Comprobar que las opciones también han sido eliminadas
+        for opcion in opciones:
+            self.assertFalse(
+                Opcion.objects.filter(id=opcion.id).exists()
+            )
